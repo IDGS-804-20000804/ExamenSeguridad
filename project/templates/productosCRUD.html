@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+  {% if update %}
+  <h5>
+    Producto
+  </h5>
+  <form method="POST" action="/updateCom/{{id}}" enctype="multipart/form-data">
+    <label for="txtNombre">Nombre:</label>
+    <input id="txtNombre" value="{{nombre}}" name="txtNombre" type="text">
+    <label for="txtPrecio">Precio:</label>
+    <input id="txtPrecio" value="{{precio}}" name="txtPrecio" placeholder="Ingrese el precio" type="number">
+    <label for="txtDescripcion">Descripcion:</label>
+    <textarea id="txtDescripcion" name="txtDescripcion" cols="40" rows="2" required>{{descripcion}}</textarea>
+    <button name="Guardar" type="submit">Guardar</button>
+  </form>
+  {% else %}
+  <h5>
+    Nuevo producto
+  </h5>
+  <form method="POST" action="/administrador" enctype="multipart/form-data">
+    <label for="txtNombre">Nombre:</label>
+    <br>
+    <input id="txtNombre" name="txtNombre" type="text" required>
+    <br>
+    <label for="txtPrecio">Precio:</label>
+    <br>
+    <input id="txtPrecio" name="txtPrecio" placeholder="Ingrese el precio" type="number" required>
+    <br>
+    <label for="txtDescripcion">Descripcion:</label>
+    <br>
+    <textarea id="txtDescripcion" name="txtDescripcion" cols="40" rows="2" required></textarea>
+    <br>
+    <button name="submit" type="submit">Submit</button>
+  </form>
+  {% endif %}
+  <h5>
+    Producto
+  </h5>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          ID
+        </th>
+        <th>
+          Nombre del producto
+        </th>
+        <th>
+          Descripcion
+        </th>
+        <th>
+          Precio
+        </th>
+        <th>
+          Estatus
+        </th>
+        <th>
+          Acciones
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for producto in productos %}
+      <tr>
+        <td>
+          {{producto.id}}
+        </td>
+        <td>
+          {{producto.name}}
+        </td>
+        <td>
+          {{producto.description}}
+        </td>
+        <td>
+          {{producto.precio}}
+        </td>
+        <td>
+          {{producto.estatus}}
+        </td>
+        <td>
+          <a href="{{url_for('main.delete',id=producto.id)}}" role="button">Eliminar</a>
+          <br>
+          <a href="{{url_for('main.update',id=producto.id)}}" role="button">Actualizar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {%endblock content%}

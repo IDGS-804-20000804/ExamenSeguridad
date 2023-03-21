@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{%block content%}
+<form role="form" method="POST">
+  <label for="txtNombre">Nombre:</label>
+  <br>
+  <input id="txtNombre" name="txtNombre" type="text">
+  <br>
+  <label for="txtMotivo">Motivo</label>
+  <br>
+  <select id="txtMotivo" name="txtMotivo">
+    <option value="1">Sugerencia</option>
+    <option value="2">Reclamo</option>
+    <option value="3">Solicitud</option>
+  </select>
+  <br>
+  <label for="txtCorreo">Correo:</label>
+  <br>
+  <input id="txtCorreo" name="txtCorreo" type="text">
+  <br>
+  <label for="textarea">Comentario:</label>
+  <br>
+  <textarea id="textarea" name="textarea" cols="40" rows="3"></textarea>
+  <button type="button">Enviar</button>
+</form>
+
+{%endblock content%}

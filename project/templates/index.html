@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{%block content%}
+<main>
+    <h1>PRODUCTOS INC</h1>
+    <p>Esta es una empresa dedicada a la producción de diferentes artículos.</p>
+    <p>Actualmente estas utilizando una aplicación demo en la cual se les permitirá a los usuarios consultar los productos que dispone la empresa.</p>
+    <h3>BIENVENIDO!</h3>
+</main>
+
+<table>
+    <thead>
+      <tr>
+        <th>
+          ID
+        </th>
+        <th>
+          Nombre del producto
+        </th>
+        <th>
+          Descripcion
+        </th>
+        <th>
+          Precio
+        </th>
+        <th>
+          Estatus
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+        {% if tamanio > 0 %}
+        {%for producto in productos %}
+        <tr>
+          <td>
+            {{producto.id}}
+          </td>
+          <td>
+            {{producto.name}}
+          </td>
+          <td>
+            {{producto.description}}
+          </td>
+          <td>
+            {{producto.precio}}
+          </td>
+          <td>
+            {{producto.estatus}}
+          </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="5">
+                <h3>NO HAY PRODUCTOS DISPONIBLES</h3>
+            </td>
+        </tr>
+        {% endif %}
+    </tbody>
+  </table>
+{%endblock  content%}
+
