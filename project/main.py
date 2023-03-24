@@ -6,6 +6,7 @@ from flask_security.decorators import roles_required
 from project.models import Role, productos
 from werkzeug.utils import secure_filename
 from . import db
+import logging
 
 main = Blueprint('main',__name__)
 
@@ -13,12 +14,16 @@ main = Blueprint('main',__name__)
 def index():
     products = productos.query.all()
     tamanio = len(list(products))
+    logging.basicConfig(filename='logs.log', level=logging.INFO)
+    logging.info('ACCESO AL INDEX')
     return render_template('index.html', productos = products, tamanio = tamanio )
 
 @main.route('/administrador')
 @login_required
 @roles_required('admin')
 def admin():
+    logging.basicConfig(filename='logs.log', level=logging.INFO)
+    logging.info('ACCESO AL MODULO DE ADMINISTRADOR')
     products = productos.query.all()
     return render_template('productosCRUD.html', productos = products )
 
@@ -32,6 +37,8 @@ def admin_post():
     new_producto = productos(nombre, descripcion, precio)
     db.session.add(new_producto)
     db.session.commit()
+    logging.basicConfig(filename='logs.log', level=logging.INFO)
+    logging.info(f'AGREGACION DE PRODUCTO CON NOMBRE {nombre}')
     flash('El producto se guardo correctamente')
     return redirect(url_for('main.admin'))
 
@@ -42,6 +49,8 @@ def delete(id):
     db.session.delete(producto)
     db.session.commit()
     flash('El producto se eliminó correctamente')
+    logging.basicConfig(filename='logs.log', level=logging.INFO)
+    logging.info(f'ELIMINACION DE PRODUCTO CON ID {id}')
     return redirect(url_for('main.admin'))
 
 @main.route('/update/<id>')
@@ -49,6 +58,8 @@ def delete(id):
 def update(id):
     producto=productos.query.get(id)
     print(producto.id)
+    logging.basicConfig(filename='logs.log', level=logging.INFO)
+    logging.info(f'ACCESO AL MODULO DE ACTUALIZACION DEL PRODUCTO CON ID {id}')
     return render_template('productosCRUD.html',
                            nombre=producto.name,
                            precio=int(producto.precio),
@@ -64,8 +75,10 @@ def updateComfim(id):
     producto.name = request.form.get('txtNombre')
     producto.description = request.form.get('txtDescripcion')
     producto.precio = request.form.get('txtPrecio')
-    db.session.commit()  
+    db.session.commit()
     flash('El producto se modifico correctamente')
+    logging.basicConfig(filename='logs.log', level=logging.INFO)
+    logging.info(f'ACTUALIZACION DEL PRODUCTO CON NOMBRE {producto.name} E ID {id}')
     return redirect(url_for('main.admin'))
    
 @main.route('/administrador')
@@ -74,5 +87,6 @@ def galeria():
     products = productos.query.all()
     if len( products )==0:
        products = 0
-    print(current_user.admin)
+    logging.basicConfig(filename='logs.log', level=logging.INFO)
+    logging.info(f'ACCESO AL MODULO DE GALERIA')
     return render_template('galeria.html', productos = products )

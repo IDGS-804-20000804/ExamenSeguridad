@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask_security import Security, SQLAlchemyUserDatastore
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+import logging
 
 db = SQLAlchemy()
 from .models import User, Role
@@ -15,7 +15,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1029384756-MySQL_root@127.0.0.1/idgs804_flask_security'
     app.config['SECURITY_PASSWORD_HASH'] = 'pbkdf2_sha512'
     app.config['SECURITY_PASSWORD_SALT'] = 'secret'
-    app.config['UPLOAD_FOLDER'] = '/static/img'
+    app.logger.debug('Aplicación iniciandose')
     db.init_app(app)
     @app.before_first_request
     def create_all():
@@ -25,4 +25,8 @@ def create_app():
     app.register_blueprint(auth_blueprint)
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+    
+    logging.basicConfig(filename='logs.log', level=logging.INFO)
+    logging.info('APLICACION INICIADA')
+    
     return app
